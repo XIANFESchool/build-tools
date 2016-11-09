@@ -6,7 +6,28 @@ const exec = require('child_process').exec;
 const q = require('q');
 const inquirer = require('inquirer');
 const Spinner = require('cli-spinner').Spinner;
+const chalk = require('chalk');
 
+const
+	info = chalk.bold.green,
+	error = chalk.bold.red,
+	warn = chalk.bold.yellow;
+
+const log = (message) => {
+	console.log(message);
+};
+
+Object.assign(log, {
+	info(message) {
+		console.log(info(message));
+	},
+	error(message) {
+		console.log(error(message));
+	},
+	warn(message) {
+		console.log(warn(message));
+	}
+});
 
 const toString = Object.prototype.toString;
 
@@ -17,13 +38,17 @@ if (!String.prototype.trim) {
 }
 
 function waitAnimation(waitTitle, finishTitle) {
-	var spinner = new Spinner(waitTitle);
+	let spinner = new Spinner(waitTitle);
 	spinner.setSpinnerString('|/-\\');
 
 	return {
-		stop: function() {
-			spinner.stop(true);
-			console.log(finishTitle);
+		stop: function(success) {
+			if (success) {
+				spinner.stop(true);
+				log.info(finishTitle);
+			} else {
+				spinner.stop(false);
+			}
 		},
 		start: function() {
 			spinner.start();
@@ -38,10 +63,11 @@ function cloneRepository(repository) {
 	spinner.start();
 	exec(`git clone ${repository}`, (error, stdout, stderr) => {
 		if (error) {
+			spinner.stop();
 			deferred.reject(`the repository ${repository} can not be clone: ${stderr}`)
 		} else {
 			const dir = path.basename(repository, '.git');
-			spinner.stop();
+			spinner.stop(true);
 			deferred.resolve(dir);
 		}
 	});
@@ -98,9 +124,10 @@ function checkoutSelectedBranch(dir, branchName) {
 	spinner.start();
 	exec(`cd ${dir}; git checkout ${branchName}`, (error, stdout, stderr) => {
 		if (error) {
+			spinner.stop();
 			deferred.reject(`checkout branch ${branchName} fail: ${stderr}`)
 		} else {
-			spinner.stop();
+			spinner.stop(true);
 			deferred.resolve(stdout);
 		}
 	});
@@ -114,9 +141,10 @@ function npmInstall(dir) {
 	spinner.start();
 	exec(`cd ${dir}; npm install`, (error, stdout, stderr) => {
 		if (error) {
+			spinner.stop();
 			deferred.reject(`npm install fail: ${stderr}`)
 		} else {
-			spinner.stop();
+			spinner.stop(true);
 			deferred.resolve(stdout);
 		}
 	});
@@ -130,9 +158,10 @@ function npmBuild(dir) {
 	spinner.start();
 	exec(`cd ${dir}; npm run build`, (error, stdout, stderr) => {
 		if (error) {
+			spinner.stop();
 			deferred.reject(`npm run build fail: ${stderr}`)
 		} else {
-			spinner.stop();
+			spinner.stop(true);
 			deferred.resolve(stdout);
 		}
 	});
@@ -165,14 +194,27 @@ program
 	.command('run <repository>')
 	.description('from step1 to step5: <repository> is your git repository ssh path.')
 	.action((repository) => {
-		startBuild(repository).done();
+		startBuild(repository).done(() => {
+			log.info('All Done O(∩_∩)O~');
+		}, (err) => {
+			log.error(`\n${err}`);
+		});
 	});
 
 program
 	.command('build')
 	.description('from step2 to step5: you need jump to project directory before.')
 	.action((repository) => {
-		startBuild(repository).done();
+		startBuild(repository).done(() => {
+			log.info('All Done O(∩_∩)O~');
+		}, (err) => {
+			log.error(`\n${err}`);
+		});
 	});
 
 program.parse(process.argv);
+
+// 没有参数时, 输出 help
+if (!process.argv.slice(2).length) {
+	program.outputHelp();
+}
