@@ -38,7 +38,7 @@ function cloneRepository(repository) {
 	spinner.start();
 	exec(`git clone ${repository}`, (error, stdout, stderr) => {
 		if (error) {
-			deferred.reject(`the repository ${repository} can not clone: ${stderr}`)
+			deferred.reject(`the repository ${repository} can not be clone: ${stderr}`)
 		} else {
 			const dir = path.basename(repository, '.git');
 			spinner.stop();
