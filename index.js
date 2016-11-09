@@ -8,6 +8,8 @@ const inquirer = require('inquirer');
 const Spinner = require('cli-spinner').Spinner;
 
 
+const toString = Object.prototype.toString;
+
 if (!String.prototype.trim) {
 	String.prototype.trim = function () {
 		return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, '');
@@ -139,7 +141,7 @@ function npmBuild(dir) {
 
 const startBuild = q.async(function*(repository) {
 	let dir = './';
-	if (repository) {
+	if (toString.call(repository) === '[object String]') {
 		dir = yield cloneRepository(repository);
 	}
 	const branchNames = yield listBranchNames(dir);
