@@ -1,13 +1,18 @@
 # build-tools
 
-1. 安装命令
+1.安装命令
 
-```npm install -g ShuyunXIANFESchool/build-tools```
+```shell
+npm install -g ShuyunXIANFESchool/build-tools
+```
 
-2. 执行命令
+2.执行命令
 
-```fe-build```
+```shell
+fe-build
+```
 
+3.帮助信息
 
 ```shell
   Usage: index [options] [command]
