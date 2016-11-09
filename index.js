@@ -138,7 +138,10 @@ function npmBuild(dir) {
 }
 
 const startBuild = q.async(function*(repository) {
-	const dir = yield cloneRepository(repository);
+	let dir = './';
+	if (repository) {
+		dir = yield cloneRepository(repository);
+	}
 	const branchNames = yield listBranchNames(dir);
 	const selectedBranchName = yield selectBranch(branchNames);
 	yield checkoutSelectedBranch(dir, selectedBranchName);
@@ -147,11 +150,27 @@ const startBuild = q.async(function*(repository) {
 });
 
 program
-	.command('start <repository>')
-	.description('start build: <repository> is your git repository ssh path.')
+	.version('0.0.1')
+	.description(`
+		step1: git clone <repository>
+		step2: choose your branch
+		step3: git checkout <branchName>
+		step4: npm install
+		step5: npm run build
+	`);
+
+program
+	.command('run <repository>')
+	.description('from step1 to step5: <repository> is your git repository ssh path.')
 	.action((repository) => {
 		startBuild(repository).done();
 	});
 
+program
+	.command('build')
+	.description('from step2 to step5: you need jump to project directory before.')
+	.action((repository) => {
+		startBuild(repository).done();
+	});
 
 program.parse(process.argv);
