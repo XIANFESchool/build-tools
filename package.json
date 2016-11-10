@@ -20,7 +20,7 @@
     "cli-spinner": "^0.2.5",
     "commander": "^2.9.0",
     "inquirer": "^1.2.2",
-    "prompt": "^1.0.0",
+    "prompt": "^1.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^6.1.2",
