@@ -12,7 +12,7 @@ npm install -g ShuyunXIANFESchool/build-tools
 fe-build
 ```
 
-3.帮助信息
+3.帮助信息 (注意: 为了保证速度, npm install 实际执行的是 cnpm install, 请按照 cnpm)
 
 ```shell
   Usage: fe-build [options] [command]
