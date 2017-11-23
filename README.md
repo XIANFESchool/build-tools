@@ -15,27 +15,26 @@ fe-build
 3.帮助信息 (注意: 为了保证速度, npm install 实际执行的是 cnpm install, 请安装 cnpm)
 
 ```shell
-  Usage: fe-build [options] [command]
+   Usage: fe-build [options] [command]
 
 
-        step1: git clone repository
-        step2: choose your branch
-        step3: git checkout branch
-        step4: npm install
-        step5: choose your build script
-        step6: step6: run build script
+          step1: git clone repository
+          step2: choose your branch
+          step3: git checkout branch
+          step4: npm install
+          step5: choose your build script
+          step6: run build script
 
 
-  Options:
+    Options:
 
-    -V, --version  output the version number
-    -h, --help     output usage information
+      -V, --version  output the version number
+      -h, --help     output usage information
 
 
-  Commands:
+    Commands:
 
-    run <repository> [skip-clone]
+      start [repository]
+          repository: git repository ssh path.
 
-        repository: git repository ssh path,
-        skip-clone: skip step1.
 ```
