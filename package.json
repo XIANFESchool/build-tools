@@ -1,7 +1,7 @@
 {
-  "name": "build-tools",
-  "version": "1.0.0",
-  "description": "",
+  "name": "fe-build",
+  "version": "0.0.1",
+  "description": "front-end tools for building",
   "main": "./bin/fe-build.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

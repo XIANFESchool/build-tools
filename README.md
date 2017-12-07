@@ -1,9 +1,9 @@
-# build-tools
+# fe-build
 
 1.安装命令
 
 ```shell
-npm install -g ShuyunXIANFESchool/build-tools
+npm install -g fe-build
 ```
 
 2.执行命令
